@@ -31,6 +31,7 @@ namespace CsvConverter
 
             ListParams.Items.Clear();
             _parameters.Clear();
+            listBox2.Items.Clear();
             // асинхронное чтение
             using (StreamReader reader = new StreamReader(LoadPatch.Text, Encoding.GetEncoding("windows-1251")))
             {
@@ -46,11 +47,13 @@ namespace CsvConverter
                                                   .Select(x => new Property { Name = x, Checked = false })
                                                   .ToArray());
 
+                        _parameters.ForEach(property => property.Index = _parameters.IndexOf(property));
+                        _parameters.RemoveAt(0);
+
                         ListParams.Items.AddRange(_parameters
                                                   .Select(property => new ListViewItem { Text = property.Name })
                                                   .ToArray());
-
-                        _parameters.ForEach(property => property.Index = _parameters.IndexOf(property));
+                        
                         return;
                     }
                 }
@@ -59,14 +62,16 @@ namespace CsvConverter
 
         private void Save_Click(object sender, EventArgs e)
         {
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-                SavePatch.Text = saveFileDialog1.FileName;
-            else
-                return;
+            var safeFileName = LoadPatch.Text;
+            var safe = safeFileName.Take(safeFileName.Length - 4).ToList();
+            safe.AddRange("_conv.csv");
 
             using var reader = new StreamReader(LoadPatch.Text, Encoding.GetEncoding("windows-1251"));
-            using var streamReader = new StreamWriter(SavePatch.Text);
-            var selectedIndices = _parameters.Where(property => property.Checked).Select(property => property.Index).ToArray();
+            using var streamReader = new StreamWriter(string.Join("",safe));
+            
+            var selectedIndices = new List<int>{ 0 };
+            selectedIndices.AddRange(_parameters.Where(property => property.Checked).Select(property => property.Index));
+            
             var firstFlag = true;
             while (reader.ReadLine() is {} line)
             {
@@ -81,6 +86,7 @@ namespace CsvConverter
                     }
                     else
                     {
+                        linkedList.AddLast("Время");
                         foreach (var param in _parameters.Where(property => property.Checked).Select(property => property.Name))
                             linkedList.AddLast($"\"{param}\"");
                         firstFlag = false;
@@ -125,6 +131,22 @@ namespace CsvConverter
             Filter.BackColor = ListParams.Items.Count == 0
                 ? Color.Red
                 : Color.White;
+        }
+
+        private void SelectAll_Click(object sender, EventArgs e)
+        {
+            foreach (var name in ListParams.Items.Cast<ListViewItem>().Select(item => item.Text))
+            {
+                _parameters.FirstOrDefault(property => property.Name == name).Checked = true;
+                if (!listBox2.Items.Contains(name))
+                    listBox2.Items.Add(name);
+            }
+        }
+
+        private void DeselectTheSelection_Click(object sender, EventArgs e)
+        {
+            listBox2.Items.Clear();
+            _parameters.ForEach(property => property.Checked = false);
         }
     }
 }

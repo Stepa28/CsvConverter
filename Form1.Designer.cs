@@ -37,8 +37,9 @@
             this.LoadPatch = new System.Windows.Forms.TextBox();
             this.ListParams = new System.Windows.Forms.ListView();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.DeselectTheSelection = new System.Windows.Forms.Button();
+            this.SelectAll = new System.Windows.Forms.Button();
             this.Save = new System.Windows.Forms.Button();
-            this.SavePatch = new System.Windows.Forms.TextBox();
             this.listBox2 = new System.Windows.Forms.ListBox();
             this.Filter = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -148,8 +149,9 @@
             // 
             // splitContainer3.Panel1
             // 
+            this.splitContainer3.Panel1.Controls.Add(this.DeselectTheSelection);
+            this.splitContainer3.Panel1.Controls.Add(this.SelectAll);
             this.splitContainer3.Panel1.Controls.Add(this.Save);
-            this.splitContainer3.Panel1.Controls.Add(this.SavePatch);
             // 
             // splitContainer3.Panel2
             // 
@@ -157,6 +159,26 @@
             this.splitContainer3.Size = new System.Drawing.Size(396, 450);
             this.splitContainer3.SplitterDistance = 48;
             this.splitContainer3.TabIndex = 0;
+            // 
+            // DeselectTheSelection
+            // 
+            this.DeselectTheSelection.Location = new System.Drawing.Point(0, 23);
+            this.DeselectTheSelection.Name = "DeselectTheSelection";
+            this.DeselectTheSelection.Size = new System.Drawing.Size(187, 23);
+            this.DeselectTheSelection.TabIndex = 7;
+            this.DeselectTheSelection.Text = "Снять выделение со всего";
+            this.DeselectTheSelection.UseVisualStyleBackColor = true;
+            this.DeselectTheSelection.Click += new System.EventHandler(this.DeselectTheSelection_Click);
+            // 
+            // SelectAll
+            // 
+            this.SelectAll.Location = new System.Drawing.Point(0, 3);
+            this.SelectAll.Name = "SelectAll";
+            this.SelectAll.Size = new System.Drawing.Size(187, 22);
+            this.SelectAll.TabIndex = 6;
+            this.SelectAll.Text = "Выделить всё отфильтрованное";
+            this.SelectAll.UseVisualStyleBackColor = true;
+            this.SelectAll.Click += new System.EventHandler(this.SelectAll_Click);
             // 
             // Save
             // 
@@ -167,14 +189,6 @@
             this.Save.Text = "Сохранить";
             this.Save.UseVisualStyleBackColor = true;
             this.Save.Click += new System.EventHandler(this.Save_Click);
-            // 
-            // SavePatch
-            // 
-            this.SavePatch.Enabled = false;
-            this.SavePatch.Location = new System.Drawing.Point(18, 14);
-            this.SavePatch.Name = "SavePatch";
-            this.SavePatch.Size = new System.Drawing.Size(289, 20);
-            this.SavePatch.TabIndex = 4;
             // 
             // listBox2
             // 
@@ -216,7 +230,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
-            this.splitContainer3.Panel1.PerformLayout();
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
@@ -237,9 +250,10 @@
         private System.Windows.Forms.Button Open;
         private System.Windows.Forms.TextBox LoadPatch;
         private System.Windows.Forms.Button Save;
-        private System.Windows.Forms.TextBox SavePatch;
         private System.Windows.Forms.ListView ListParams;
         private System.Windows.Forms.TextBox Filter;
+        private System.Windows.Forms.Button DeselectTheSelection;
+        private System.Windows.Forms.Button SelectAll;
     }
 }
 
