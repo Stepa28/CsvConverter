@@ -67,7 +67,8 @@ namespace CsvConverter
             safe.AddRange("_conv.csv");
 
             using var reader = new StreamReader(LoadPatch.Text, Encoding.GetEncoding("windows-1251"));
-            using var streamReader = new StreamWriter(string.Join("",safe));
+            using var stream = new FileStream(string.Join("", safe), FileMode.Create);
+            using var streamReader = new StreamWriter(stream, Encoding.GetEncoding("windows-1251"));
             
             var selectedIndices = new List<int>{ 0 };
             selectedIndices.AddRange(_parameters.Where(property => property.Checked).Select(property => property.Index));
