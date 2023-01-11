@@ -19,7 +19,8 @@ namespace CsvConverter
         {
             _parameters = new List<Property>();
             InitializeComponent();
-
+            ListParams.Columns.Add("Наименование параметра", -2, HorizontalAlignment.Left);
+            ListParams.HeaderStyle = ColumnHeaderStyle.None;
         }
 
         private void Open_Click(object sender, EventArgs e)

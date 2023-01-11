@@ -157,7 +157,7 @@
             this.ListParams.Size = new System.Drawing.Size(504, 677);
             this.ListParams.TabIndex = 1;
             this.ListParams.UseCompatibleStateImageBehavior = false;
-            this.ListParams.View = System.Windows.Forms.View.List;
+            this.ListParams.View = System.Windows.Forms.View.Details;
             this.ListParams.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.ListParams_ItemSelectionChanged);
             // 
             // splitContainer3
