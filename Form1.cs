@@ -100,6 +100,7 @@ namespace CsvConverter
                     streamReader.WriteLine(line);
                 }
             }
+            MessageBox.Show($"Сохранение завершено\n{string.Join("", safe)}", "Успех");
         }
 
         private void ListParams_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
