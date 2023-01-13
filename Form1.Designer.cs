@@ -37,6 +37,9 @@
             this.Filter = new System.Windows.Forms.TextBox();
             this.Open = new System.Windows.Forms.Button();
             this.LoadPatch = new System.Windows.Forms.TextBox();
+            this.ProgressPanel = new System.Windows.Forms.Panel();
+            this.progressView = new System.Windows.Forms.ProgressBar();
+            this.label3 = new System.Windows.Forms.Label();
             this.ListParams = new System.Windows.Forms.ListView();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.DeselectTheSelection = new System.Windows.Forms.Button();
@@ -51,6 +54,7 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            this.ProgressPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
@@ -110,7 +114,7 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.ListParams);
             this.splitContainer2.Size = new System.Drawing.Size(504, 761);
-            this.splitContainer2.SplitterDistance = 80;
+            this.splitContainer2.SplitterDistance = 78;
             this.splitContainer2.TabIndex = 0;
             // 
             // label2
@@ -148,13 +152,38 @@
             this.LoadPatch.Size = new System.Drawing.Size(399, 20);
             this.LoadPatch.TabIndex = 1;
             // 
+            // ProgressPanel
+            // 
+            this.ProgressPanel.Controls.Add(this.progressView);
+            this.ProgressPanel.Controls.Add(this.label3);
+            this.ProgressPanel.Location = new System.Drawing.Point(94, 38);
+            this.ProgressPanel.Name = "ProgressPanel";
+            this.ProgressPanel.Size = new System.Drawing.Size(289, 73);
+            this.ProgressPanel.TabIndex = 2;
+            this.ProgressPanel.Visible = false;
+            // 
+            // progressView
+            // 
+            this.progressView.Location = new System.Drawing.Point(13, 36);
+            this.progressView.Name = "progressView";
+            this.progressView.Size = new System.Drawing.Size(265, 23);
+            this.progressView.TabIndex = 3;
+            // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(10, 11);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(268, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Идёт процесс сохранения. Пожалуйста подождите.";
+            // 
             // ListParams
             // 
             this.ListParams.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ListParams.HideSelection = false;
             this.ListParams.Location = new System.Drawing.Point(0, 0);
             this.ListParams.Name = "ListParams";
-            this.ListParams.Size = new System.Drawing.Size(504, 677);
+            this.ListParams.Size = new System.Drawing.Size(504, 679);
             this.ListParams.TabIndex = 1;
             this.ListParams.UseCompatibleStateImageBehavior = false;
             this.ListParams.View = System.Windows.Forms.View.Details;
@@ -175,9 +204,10 @@
             // 
             // splitContainer3.Panel2
             // 
+            this.splitContainer3.Panel2.Controls.Add(this.ProgressPanel);
             this.splitContainer3.Panel2.Controls.Add(this.listBox2);
             this.splitContainer3.Size = new System.Drawing.Size(500, 761);
-            this.splitContainer3.SplitterDistance = 42;
+            this.splitContainer3.SplitterDistance = 40;
             this.splitContainer3.TabIndex = 0;
             // 
             // DeselectTheSelection
@@ -216,7 +246,7 @@
             this.listBox2.FormattingEnabled = true;
             this.listBox2.Location = new System.Drawing.Point(0, 0);
             this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(500, 715);
+            this.listBox2.Size = new System.Drawing.Size(500, 717);
             this.listBox2.TabIndex = 0;
             this.listBox2.SelectedIndexChanged += new System.EventHandler(this.listBox2_SelectedIndexChanged);
             // 
@@ -245,6 +275,7 @@
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            this.ProgressPanel.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
@@ -271,6 +302,9 @@
         private System.Windows.Forms.Button DeselectTheSelection;
         private System.Windows.Forms.Button SelectAll;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Panel ProgressPanel;
+        private System.Windows.Forms.ProgressBar progressView;
+        internal System.Windows.Forms.Label label3;
     }
 }
 

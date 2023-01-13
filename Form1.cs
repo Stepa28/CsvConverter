@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using CsvConverter.Properties;
 
 namespace CsvConverter
 {
@@ -34,30 +32,35 @@ namespace CsvConverter
             _parameters.Clear();
             listBox2.Items.Clear();
             // асинхронное чтение
-            using (StreamReader reader = new StreamReader(LoadPatch.Text, Encoding.GetEncoding("windows-1251")))
+            using StreamReader reader = new StreamReader(LoadPatch.Text, Encoding.GetEncoding("windows-1251"));
+            var flag = false;
+            while (reader.ReadLine() is {} line)
             {
-                string? line;
-                while ((line = reader.ReadLine()) != null)
+                if (line.Length == 0)
                 {
-                    if (line.Split(',').Length > 4)
-                    {
-                        var param = line.Split('\"').ToList();
-
-                        _parameters.AddRange(param.Where(x => x.Length > 1)
-                                                  .Select(x => x.TrimEnd(','))
-                                                  .Select(x => new Property { Name = x, Checked = false })
-                                                  .ToArray());
-
-                        _parameters.ForEach(property => property.Index = _parameters.IndexOf(property));
-                        _parameters.RemoveAt(0);
-
-                        ListParams.Items.AddRange(_parameters
-                                                  .Select(property => new ListViewItem { Text = property.Name })
-                                                  .ToArray());
-                        
-                        return;
-                    }
+                    flag = true;
+                    continue;
                 }
+                if (!flag)
+                    continue;
+
+                var param = line.Split('\"').ToList();
+                if (param.Count > 1)
+                    _parameters.AddRange(param.Where(x => x.Length > 1)
+                                              .Select(x => x.TrimEnd(','))
+                                              .Select(x => new Property { Name = x, Checked = false })
+                                              .ToArray());
+                else
+                    _parameters.AddRange(line.Split(',')
+                                             .Select(x => new Property { Name = x, Checked = false }));
+
+                _parameters.ForEach(property => property.Index = _parameters.IndexOf(property));
+                _parameters.RemoveAt(0);
+
+                ListParams.Items.AddRange(_parameters
+                                          .Select(property => new ListViewItem { Text = property.Name })
+                                          .ToArray());
+                return;
             }
         }
 
@@ -71,14 +74,21 @@ namespace CsvConverter
             using var stream = new FileStream(string.Join("", safe), FileMode.Create);
             using var streamReader = new StreamWriter(stream, Encoding.GetEncoding("windows-1251"));
             
-            var selectedIndices = new List<int>{ 0 };
-            selectedIndices.AddRange(_parameters.Where(property => property.Checked).Select(property => property.Index));
+            ProgressPanel.Visible = true;
+            progressView.Minimum = 0;
+            progressView.Maximum = File.ReadAllLines(LoadPatch.Text).Length;
+            label3.Update();
             
+            var selectedIndices = new List<int> { 0 };
+            selectedIndices.AddRange(_parameters.Where(property => property.Checked).Select(property => property.Index));
+
             var firstFlag = true;
+            var headerEnd = false;
+            var count = 0;
             while (reader.ReadLine() is {} line)
             {
                 var split = line.Split(',');
-                if (split.Length > 4) //TODO вместо 4 постовить нормальное число
+                if (headerEnd)
                 {
                     var linkedList = new LinkedList<string>();
                     if (!firstFlag)
@@ -98,10 +108,15 @@ namespace CsvConverter
                 }
                 else
                 {
+                    if (line.Length == 0)
+                        headerEnd = true;
                     streamReader.WriteLine(line);
                 }
+                progressView.Value = count;
+                count++;
             }
-            MessageBox.Show($"Сохранение завершено\n{string.Join("", safe)}", "Успех");
+            ProgressPanel.Visible = false;
+            MessageBox.Show(string.Format(Resources.Form1_Save_Click_Complete, string.Join("", safe)), Resources.Form1_Save_Click_Congratulation);
         }
 
         private void ListParams_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
